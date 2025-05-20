@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você me ama?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            left: -10px;
+        }
+
+        .heart::after {
+            top: -10px;
+        }
+
+        .heart-small {
+            width: 15px;
+            height: 15px;
+        }
+
+        .heart-small::before,
+        .heart-small::after {
+            width: 15px;
+            height: 15px;
+        }
+
+        .heart-large {
+            width: 25px;
+            height: 25px;
+        }
+
+        .heart-large::before,
+        .heart-large::after {
+            width: 25px;
+            height: 25px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: rotate(45deg) translateY(0) translateX(0);
+            }
+            25% {
+                transform: rotate(45deg) translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: rotate(45deg) translateY(-40px) translateX(0);
+            }
+            75% {
+                transform: rotate(45deg) translateY(-20px) translateX(-10px);
+            }
+        }
+
+        @keyframes floatLeft {
+            0%, 100% {
+                transform: rotate(45deg) translateX(0) translateY(0);
+            }
+            50% {
+                transform: rotate(45deg) translateX(-30px) translateY(-20px);
+            }
+        }
+
+        @keyframes floatRight {
+            0%, 100% {
+                transform: rotate(45deg) translateX(0) translateY(0);
+            }
+            50% {
+                transform: rotate(45deg) translateX(30px) translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: rotate(45deg) scale(1);
+            }
+            50% {
+                transform: rotate(45deg) scale(1.2);
+            }
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            color: white;
+        }
+
+        .btn-no {
+            background: white;
+            color: #ff6b6b;
+            border: 2px solid #ff6b6b;
+            position: fixed;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .buttons {
+                gap: 1rem;
+            }
+
+            .btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+
+            .btn-no {
+                --move-distance: 100px;
+            }
+        }
+
+        /* iPhone SE and small devices */
+        @media screen and (max-width: 375px) {
+            .container {
+                padding: 0.8rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .buttons {
+                gap: 0.8rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .btn-no {
+                --move-distance: 80px;
+            }
+        }
+
+        /* iPhone landscape */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .buttons {
+                gap: 0.6rem;
+            }
+
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .btn-no {
+                --move-distance: 60px;
+            }
+        }
+
+        /* iPhone Pro Max and larger devices */
+        @media screen and (min-width: 428px) and (max-width: 768px) {
+            .btn-no {
+                --move-distance: 120px;
+            }
+        }
+
+        /* iPad and tablets */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .btn-no {
+                --move-distance: 150px;
+            }
+        }
+
+        @keyframes moveAround {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(100px, 50px);
+            }
+            50% {
+                transform: translate(50px, 100px);
+            }
+            75% {
+                transform: translate(-50px, 50px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Você me ama? ❤️</h1>
+        <div class="buttons">
+            <button class="btn btn-yes" onclick="window.location.href='surpresa.html'">Sim</button>
+            <button class="btn btn-no" id="btnNo">Não</button>
+        </div>
+    </div>
+
+    <script>
+        // Criar corações flutuantes
+        function createHearts() {
+            const body = document.body;
+            const animations = ['float', 'floatLeft', 'floatRight', 'pulse'];
+            const sizes = ['', 'heart-small', 'heart-large'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = `heart ${sizes[Math.floor(Math.random() * sizes.length)]}`;
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animation = `${animations[Math.floor(Math.random() * animations.length)]} ${6 + Math.random() * 4}s ease-in-out infinite`;
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.opacity = (0.2 + Math.random() * 0.3).toString();
+                body.appendChild(heart);
+            }
+        }
+
+        // Inicializar corações
+        createHearts();
+
+        // Adicionar mais corações periodicamente
+        setInterval(() => {
+            const hearts = document.querySelectorAll('.heart');
+            if (hearts.length < 50) {
+                createHearts();
+            }
+        }, 5000);
+
+        // Botão "Não" foge do mouse
+        const btnNo = document.getElementById('btnNo');
+        let isMoving = false;
+        let moveInterval;
+
+        function moveButton() {
+            if (!isMoving) {
+                isMoving = true;
+                moveInterval = setInterval(() => {
+                    const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+                    const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+                    btnNo.style.left = `${x}px`;
+                    btnNo.style.top = `${y}px`;
+                }, 1000);
+            }
+        }
+
+        function stopMoving() {
+            isMoving = false;
+            clearInterval(moveInterval);
+        }
+
+        // Iniciar movimento quando o mouse se aproximar
+        btnNo.addEventListener('mouseover', () => {
+            moveButton();
+        });
+
+        // Parar movimento quando o mouse sair
+        btnNo.addEventListener('mouseout', () => {
+            stopMoving();
+        });
+
+        // Fugir do clique
+        btnNo.addEventListener('click', (e) => {
+            e.preventDefault();
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+            moveButton();
+        });
+
+        // Iniciar movimento após carregar a página
+        window.addEventListener('load', () => {
+            moveButton();
+        });
+    </script>
+</body>
+</html> 

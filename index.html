@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Romântico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            left: -10px;
+        }
+
+        .heart::after {
+            top: -10px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: rotate(45deg) translateY(0);
+            }
+            50% {
+                transform: rotate(45deg) translateY(-20px);
+            }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-container h1 {
+            color: #ff6b6b;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffc0cb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+        }
+
+        .form-group label {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus + label,
+        .form-group input:not(:placeholder-shown) + label {
+            top: 0;
+            font-size: 0.8rem;
+            background: white;
+            padding: 0 15px;
+            color: #ff6b6b;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .forgot-password {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Media Queries para Responsividade */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .login-container {
+                padding: 1.5rem;
+                max-width: 90%;
+            }
+
+            .login-container h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.2rem;
+            }
+
+            .form-group input {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .form-group label {
+                font-size: 0.9rem;
+            }
+
+            .login-btn {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+
+            .forgot-password {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* iPhone SE and small devices */
+        @media screen and (max-width: 375px) {
+            body {
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 1.2rem;
+                max-width: 95%;
+            }
+
+            .login-container h1 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-group input {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+
+            .form-group label {
+                font-size: 0.85rem;
+            }
+
+            .login-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .forgot-password {
+                font-size: 0.8rem;
+            }
+
+            .heart {
+                width: 15px;
+                height: 15px;
+            }
+
+            .heart::before,
+            .heart::after {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        /* iPhone landscape */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+
+            .login-container {
+                padding: 1rem;
+                max-width: 90%;
+            }
+
+            .form-group {
+                margin-bottom: 0.8rem;
+            }
+
+            .login-container h1 {
+                margin-bottom: 0.8rem;
+            }
+
+            .heart {
+                width: 12px;
+                height: 12px;
+            }
+
+            .heart::before,
+            .heart::after {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        /* iPhone Pro Max and larger devices */
+        @media screen and (min-width: 428px) and (max-width: 768px) {
+            .login-container {
+                max-width: 85%;
+            }
+
+            .login-container h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* iPad and tablets */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .login-container {
+                max-width: 70%;
+            }
+        }
+        .labelLoginSenha{
+            padding-bottom: 13.5%;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>❤️ Bem-vindo Clara ❤️</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <input type="text" id="username" placeholder=" " required>
+                <label for="username">Nome</label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Data do pedido de namoro" required>
+                <label for="password" class="labelLoginSenha">Senha</label>
+            </div>
+            <button type="submit" class="login-btn">Entrar</button>
+            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+        </form>
+    </div>
+
+    <script>
+        // Criar corações flutuantes
+        function createHearts() {
+            const body = document.body;
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                body.appendChild(heart);
+            }
+        }
+
+        // Inicializar corações
+        createHearts();
+
+        // Manipular o formulário
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username.toLowerCase() === 'clara' && password === '270425') {
+                alert('Login realizado com sucesso! ❤️ Te amo!');
+                window.location.href = 'momentos.html';
+            } else {
+                alert('Nome ou senha incorretos. Tente novamente!');
+            }
+        });
+
+        // Animação suave ao focar nos inputs
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

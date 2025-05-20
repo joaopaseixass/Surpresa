@@ -1,0 +1,439 @@
+Teste a IA diretamente nos seus apps favoritos … Use o Gemini para gerar rascunhos e refinar conteúdo e o Gemini Advanced com a IA de última geração do Google por R$ 96,99 R$ 0 durante um mês
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surpresa!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            z-index: 1;
+        }
+
+        .crack {
+            position: absolute;
+            background: #000;
+            transform-origin: center;
+            animation: crack 1s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes crack {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        .falling-piece {
+            position: absolute;
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            animation: fall 2s ease-in forwards;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .heart-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(300px, 80vw);
+            height: min(300px, 80vw);
+            z-index: 2;
+        }
+
+        .final-heart {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff6b6b;
+            transform: rotate(45deg) scale(0);
+            animation: heartAppear 1s ease-out 3s forwards;
+        }
+
+        .final-heart::before,
+        .final-heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff6b6b;
+            border-radius: 50%;
+        }
+
+        .final-heart::before {
+            left: -50%;
+        }
+
+        .final-heart::after {
+            top: -50%;
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            color: white;
+            font-size: min(2rem, 5vw);
+            text-align: center;
+            z-index: 3;
+            opacity: 0;
+            animation: messageAppear 1s ease-out 4s forwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        @keyframes heartAppear {
+            0% {
+                transform: rotate(45deg) scale(0);
+            }
+            50% {
+                transform: rotate(45deg) scale(1.2);
+            }
+            100% {
+                transform: rotate(45deg) scale(1);
+            }
+        }
+
+        @keyframes messageAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) rotate(-45deg) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(-45deg) scale(1);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 1s ease-out infinite;
+        }
+
+        .bottom-buttons {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+            padding: 0 20px;
+        }
+
+        .back-button, .rewards-button {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            animation: buttonAppear 1s ease-out 5s forwards;
+        }
+
+        .back-button:hover, .rewards-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes buttonAppear {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* iPhone SE and small devices */
+        @media screen and (max-width: 375px) {
+            .heart-container {
+                width: min(200px, 70vw);
+                height: min(200px, 70vw);
+            }
+
+            .message {
+                font-size: min(1.2rem, 4vw);
+            }
+
+            .bottom-buttons {
+                bottom: 20px;
+                gap: 8px;
+                padding: 0 10px;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .back-button, .rewards-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+                max-width: 45%;
+            }
+        }
+
+        /* iPhone landscape */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .heart-container {
+                width: min(180px, 50vh);
+                height: min(180px, 50vh);
+            }
+
+            .message {
+                font-size: min(1.1rem, 3.5vw);
+            }
+
+            .bottom-buttons {
+                bottom: 15px;
+                gap: 5px;
+                padding: 0 8px;
+            }
+
+            .back-button, .rewards-button {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                max-width: 48%;
+            }
+        }
+
+        /* iPhone Pro Max and larger devices */
+        @media screen and (min-width: 428px) and (max-width: 768px) {
+            .heart-container {
+                width: min(280px, 75vw);
+                height: min(280px, 75vw);
+            }
+
+            .message {
+                font-size: min(1.8rem, 4.5vw);
+            }
+
+            .bottom-buttons {
+                bottom: 25px;
+                gap: 10px;
+                padding: 0 12px;
+            }
+
+            .back-button, .rewards-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+                max-width: 46%;
+            }
+        }
+
+        /* iPad and tablets */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .heart-container {
+                width: min(300px, 60vw);
+                height: min(300px, 60vw);
+            }
+
+            .message {
+                font-size: min(2.2rem, 5vw);
+            }
+
+            .bottom-buttons {
+                bottom: 30px;
+                gap: 15px;
+            }
+
+            .back-button, .rewards-button {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="screen"></div>
+    <div class="heart-container">
+        <div class="final-heart">
+            <div class="message">Eu te amo! ❤️</div>
+        </div>
+    </div>
+
+    <!-- Áudios -->
+    <audio id="crackSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+    <audio id="fallingSound" src="https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3"></audio>
+    <audio id="heartSound" src="https://assets.mixkit.co/active_storage/sfx/2572/2572-preview.mp3"></audio>
+    <audio id="messageSound" src="https://assets.mixkit.co/active_storage/sfx/2573/2573-preview.mp3"></audio>
+
+    <div class="bottom-buttons">
+        <button class="back-button" onclick="window.location.href='momentos.html'">Voltar aos Momentos ❤️</button>
+        <button class="rewards-button" onclick="window.location.href='recompensa.html'">Recompensas 🎁</button>
+    </div>
+
+    <script>
+        // Criar efeito de quebra
+        function createCrack() {
+            const screen = document.querySelector('.screen');
+            const cracks = 20;
+            
+            // Tocar som de quebra
+            const crackSound = document.getElementById('crackSound');
+            crackSound.volume = 0.5;
+            crackSound.play();
+            
+            for (let i = 0; i < cracks; i++) {
+                const crack = document.createElement('div');
+                crack.className = 'crack';
+                
+                // Posição aleatória
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                
+                // Tamanho aleatório
+                const size = 50 + Math.random() * 150;
+                
+                // Rotação aleatória
+                const rotation = Math.random() * 360;
+                
+                crack.style.left = `${x}px`;
+                crack.style.top = `${y}px`;
+                crack.style.width = `${size}px`;
+                crack.style.height = `${size}px`;
+                crack.style.transform = `rotate(${rotation}deg)`;
+                
+                screen.appendChild(crack);
+            }
+        }
+
+        // Criar peças caindo
+        function createFallingPieces() {
+            const screen = document.querySelector('.screen');
+            const pieces = 30;
+            
+            // Tocar som de queda
+            const fallingSound = document.getElementById('fallingSound');
+            fallingSound.volume = 0.4;
+            fallingSound.play();
+            
+            for (let i = 0; i < pieces; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'falling-piece';
+                
+                // Posição aleatória
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                
+                // Tamanho aleatório
+                const size = 20 + Math.random() * 80;
+                
+                piece.style.left = `${x}px`;
+                piece.style.top = `${y}px`;
+                piece.style.width = `${size}px`;
+                piece.style.height = `${size}px`;
+                
+                screen.appendChild(piece);
+            }
+        }
+
+        // Criar efeito de brilho
+        function createSparkles() {
+            const heart = document.querySelector('.final-heart');
+            const sparkles = 20;
+            
+            // Tocar som do coração
+            const heartSound = document.getElementById('heartSound');
+            heartSound.volume = 0.6;
+            heartSound.play();
+            
+            for (let i = 0; i < sparkles; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                // Posição aleatória ao redor do coração
+                const angle = (i / sparkles) * Math.PI * 2;
+                const radius = 150;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+                
+                sparkle.style.left = `${x + 150}px`;
+                sparkle.style.top = `${y + 150}px`;
+                
+                heart.appendChild(sparkle);
+            }
+        }
+
+        // Mostrar mensagem
+        function showMessage() {
+            const messageSound = document.getElementById('messageSound');
+            messageSound.volume = 0.7;
+            messageSound.play();
+        }
+
+        // Iniciar animações
+        window.onload = () => {
+            createCrack();
+            setTimeout(createFallingPieces, 1000);
+            setTimeout(createSparkles, 3000);
+            setTimeout(showMessage, 4000);
+        };
+    </script>
+</body>
+</html> 

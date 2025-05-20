@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossos Momentos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(45deg);
+            animation: float 6s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            left: -10px;
+        }
+
+        .heart::after {
+            top: -10px;
+        }
+
+        .heart-small {
+            width: 15px;
+            height: 15px;
+        }
+
+        .heart-small::before,
+        .heart-small::after {
+            width: 15px;
+            height: 15px;
+        }
+
+        .heart-large {
+            width: 25px;
+            height: 25px;
+        }
+
+        .heart-large::before,
+        .heart-large::after {
+            width: 25px;
+            height: 25px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: rotate(45deg) translateY(0) translateX(0);
+            }
+            25% {
+                transform: rotate(45deg) translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: rotate(45deg) translateY(-40px) translateX(0);
+            }
+            75% {
+                transform: rotate(45deg) translateY(-20px) translateX(-10px);
+            }
+        }
+
+        @keyframes floatLeft {
+            0%, 100% {
+                transform: rotate(45deg) translateX(0) translateY(0);
+            }
+            50% {
+                transform: rotate(45deg) translateX(-30px) translateY(-20px);
+            }
+        }
+
+        @keyframes floatRight {
+            0%, 100% {
+                transform: rotate(45deg) translateX(0) translateY(0);
+            }
+            50% {
+                transform: rotate(45deg) translateX(30px) translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: rotate(45deg) scale(1);
+            }
+            50% {
+                transform: rotate(45deg) scale(1.2);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            padding: 20px;
+            background: transparent;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            padding: 20px 0;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            position: relative;
+            padding: 15px 15px 40px 15px;
+            background: white;
+            margin: 0 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-item:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #ff6b6b;
+            transition: all 0.3s ease;
+            z-index: 2;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .carousel-button:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 107, 107, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #ff6b6b;
+            transform: scale(1.2);
+        }
+
+        .next-page-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .next-page-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .next-page-btn:active {
+            transform: translateY(-1px);
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .carousel-container {
+                padding: 10px;
+            }
+
+            .carousel-item {
+                padding: 10px 10px 30px 10px;
+            }
+
+            .carousel-item img {
+                height: 350px;
+            }
+
+            .carousel-button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            .next-page-btn {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* iPhone SE and small devices */
+        @media screen and (max-width: 375px) {
+            .container {
+                padding: 0.8rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .carousel-container {
+                padding: 5px;
+            }
+
+            .carousel-item {
+                padding: 8px 8px 25px 8px;
+            }
+
+            .carousel-item img {
+                height: 300px;
+            }
+
+            .carousel-button {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+
+            .carousel-indicators {
+                padding: 6px 12px;
+                gap: 8px;
+            }
+
+            .indicator {
+                width: 8px;
+                height: 8px;
+            }
+
+            .next-page-btn {
+                padding: 10px 25px;
+                font-size: 1rem;
+                margin-top: 1.5rem;
+            }
+        }
+
+        /* iPhone landscape */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .carousel-item img {
+                height: 250px;
+            }
+
+            .carousel-button {
+                width: 30px;
+                height: 30px;
+                font-size: 1.2rem;
+            }
+
+            .next-page-btn {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+                margin-top: 1rem;
+            }
+        }
+
+        /* iPhone Pro Max and larger devices */
+        @media screen and (min-width: 428px) and (max-width: 768px) {
+            .carousel-item img {
+                height: 400px;
+            }
+        }
+
+        /* iPad and tablets */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .carousel-item img {
+                height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>❤️ Nossos Momentos Especiais ❤️</h1>
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-item">
+                    <img src="./img/WhatsApp-Image-2025-05-20-at-01.15.31.png" alt="Nossos momentos">
+                </div>
+                <div class="carousel-item">
+                    <img src="./img/WhatsApp-Image-2025-05-20-at-01.15.32-_2_.png" alt="Nossos momentos">
+                </div>
+                <div class="carousel-item">
+                    <img src="./img/WhatsApp-Image-2025-05-20-at-01.15.32-_3_.png" alt="Nossos momentos">
+                </div>
+                <div class="carousel-item">
+                    <img src="./img/WhatsApp-Image-2025-05-20-at-01.15.32-_4_.png" alt="Nossos momentos">
+                </div>
+                <div class="carousel-item">
+                    <img src="./img/WhatsApp-Image-2025-05-20-at-01.15.32.png" alt="Nossos momentos">
+                </div>
+            </div>
+            <button class="carousel-button prev">❮</button>
+            <button class="carousel-button next">❯</button>
+            <div class="carousel-indicators"></div>
+        </div>
+        <button class="next-page-btn" onclick="window.location.href='pergunta.html'">Continuar ❤️</button>
+    </div>
+
+    <script>
+        // Criar corações flutuantes
+        function createHearts() {
+            const body = document.body;
+            const animations = ['float', 'floatLeft', 'floatRight', 'pulse'];
+            const sizes = ['', 'heart-small', 'heart-large'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = `heart ${sizes[Math.floor(Math.random() * sizes.length)]}`;
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.animation = `${animations[Math.floor(Math.random() * animations.length)]} ${6 + Math.random() * 4}s ease-in-out infinite`;
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.opacity = (0.2 + Math.random() * 0.3).toString();
+                body.appendChild(heart);
+            }
+        }
+
+        // Inicializar corações
+        createHearts();
+
+        // Adicionar mais corações periodicamente
+        setInterval(() => {
+            const hearts = document.querySelectorAll('.heart');
+            if (hearts.length < 50) {
+                createHearts();
+            }
+        }, 5000);
+
+        // Carrossel
+        const carousel = document.querySelector('.carousel');
+        const items = document.querySelectorAll('.carousel-item');
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+        const indicatorsContainer = document.querySelector('.carousel-indicators');
+        
+        let currentIndex = 0;
+
+        // Criar indicators
+        items.forEach((_, index) => {
+            const indicator = document.createElement('div');
+            indicator.classList.add('indicator');
+            if (index === 0) indicator.classList.add('active');
+            indicator.addEventListener('click', () => goToSlide(index));
+            indicatorsContainer.appendChild(indicator);
+        });
+
+        const indicators = document.querySelectorAll('.indicator');
+
+        function updateIndicators() {
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateIndicators();
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % items.length;
+            goToSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + items.length) % items.length;
+            goToSlide(currentIndex);
+        }
+
+        // Event listeners
+        nextButton.addEventListener('click', nextSlide);
+        prevButton.addEventListener('click', prevSlide);
+
+        // Auto play
+        setInterval(nextSlide, 5000);
+    </script>
+</body>
+</html> 

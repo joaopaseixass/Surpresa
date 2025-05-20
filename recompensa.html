@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recompensas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: 200px;
+            height: 300px;
+            perspective: 1000px;
+            cursor: pointer;
+            flex: 0 1 auto;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-front {
+            background: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-back {
+            background: white;
+            color: #ff6b6b;
+            transform: rotateY(0deg);
+            font-size: 4rem;
+            background-image: linear-gradient(45deg, #ff6b6b, #ffc0cb);
+            background-size: 200% 200%;
+            animation: gradient 3s ease infinite;
+        }
+
+        .reward-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .reward-description {
+            font-size: 1rem;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .shuffle-btn {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .shuffle-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-button {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .message {
+            color: white;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            min-height: 2rem;
+        }
+
+        /* Media Queries para Responsividade */
+        @media screen and (max-width: 768px) {
+            .cards-container {
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .card {
+                width: 150px;
+                height: 225px;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* iPhone SE and small devices */
+        @media screen and (max-width: 375px) {
+            .cards-container {
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .card {
+                width: 100px;
+                height: 150px;
+            }
+
+            .card-title {
+                font-size: 1rem;
+            }
+
+            .card-description {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* iPhone landscape */
+        @media screen and (max-height: 500px) and (orientation: landscape) {
+            .cards-container {
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .card {
+                width: 120px;
+                height: 180px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .card-description {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* iPhone Pro Max and larger devices */
+        @media screen and (min-width: 428px) and (max-width: 768px) {
+            .cards-container {
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .card {
+                width: 130px;
+                height: 195px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .card-description {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* iPad and tablets */
+        @media screen and (min-width: 769px) and (max-width: 1024px) {
+            .cards-container {
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .card {
+                width: 180px;
+                height: 270px;
+            }
+
+            .card-title {
+                font-size: 1.3rem;
+            }
+
+            .card-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎁 Escolha sua Recompensa 🎁</h1>
+        <div class="message">Clique em um card para revelar sua recompensa!</div>
+        <div class="cards-container">
+            <div class="card" onclick="selectCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="reward-title">Vale Dia de princesa💝</div>
+                        <div class="reward-description">Pode fazer o que quiser comigo, desde maquiagem a tirar cravos!</div>
+                    </div>
+                    <div class="card-back">
+                        ❓
+                    </div>
+                </div>
+            </div>
+            <div class="card" onclick="selectCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="reward-title">Vale Lanche 🍔</div>
+                        <div class="reward-description">Um delicioso lanche especial!</div>
+                    </div>
+                    <div class="card-back">
+                        ❓
+                    </div>
+                </div>
+            </div>
+            <div class="card" onclick="selectCard(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="reward-title">Vale Massagem 💆‍♀️</div>
+                        <div class="reward-description">Uma massagem relaxante!</div>
+                    </div>
+                    <div class="card-back">
+                        ❓
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="back-button" onclick="window.location.href='momentos.html'">Voltar aos Momentos ❤️</button>
+    </div>
+
+    <script>
+        let hasSelected = false;
+
+        function selectCard(card) {
+            if (hasSelected) {
+                return;
+            }
+
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(c => {
+                if (c !== card) {
+                    c.style.opacity = '0.5';
+                    c.style.pointerEvents = 'none';
+                }
+            });
+
+            // Adicionar classe para virar o card
+            card.classList.add('flipped');
+
+            // Tocar som de revelação
+            const revealSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3');
+            revealSound.volume = 0.5;
+            revealSound.play();
+
+            hasSelected = true;
+
+            const message = document.querySelector('.message');
+            message.textContent = 'Parabéns pela sua escolha! ❤️';
+        }
+
+        // Misturar cards ao carregar a página
+        window.onload = function() {
+            const container = document.querySelector('.cards-container');
+            const cards = Array.from(container.children);
+            cards.sort(() => Math.random() - 0.5);
+            cards.forEach(card => {
+                container.appendChild(card);
+            });
+        };
+    </script>
+</body>
+</html> 
